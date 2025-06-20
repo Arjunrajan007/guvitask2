@@ -1,0 +1,30 @@
+install terraform - https://developer.hashicorp.com/terraform/downloads
+test it - terraform -v
+
+install AWS cli -  https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2.html
+aws --version
+
+Configure AWS CLI
+aws configure
+
+make folder
+mkdir multi-region-ec2
+cd multi-region-ec2
+
+write terraform files 
+providers.tf
+ variables.tf
+main.tf 
+outputs.tf 
+
+Initialize Terraform
+terraform init
+terraform plan
+terraform apply
+see the public ips - Outputs:
+
+us_east_public_ip = "3.91.123.45"
+us_west_public_ip = "52.41.66.78"
+http://3.91.123.45
+http://52.41.66.78
+terraform destroy
