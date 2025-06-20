@@ -1,0 +1,28 @@
+install terraform - https://developer.hashicorp.com/terraform/downloads
+test it - terraform -v
+
+install AWS cli -  https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2.html
+aws --version
+
+Configure AWS CLI
+aws configure
+
+make folder
+mkdir ec2-multiregion
+cd ec2-multiregion
+
+
+write terraform files 
+providers.tf
+ variables.tf
+main.tf 
+
+
+Initialize Terraform
+terraform init
+terraform plan
+terraform apply
+see the public ips - Outputs:
+
+
+terraform destroy
