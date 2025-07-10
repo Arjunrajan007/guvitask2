@@ -1,0 +1,90 @@
+install AWS CLI
+sudo apt install awscli  # For Ubuntu/Debian
+aws configure
+
+install terraform
+sudo apt install unzip -y
+wget https://releases.hashicorp.com/terraform/1.8.0/terraform_1.8.0_linux_amd64.zip
+unzip terraform_1.8.0_linux_amd64.zip
+sudo mv terraform /usr/local/bin/
+terraform -v
+
+project  structure
+mkdir multi-region-ec2
+cd multi-region-ec2
+touch main.tf variables.tf outputs.tf
+
+terraform code in main.tf file
+
+provider "aws" {
+  alias  = "us_east"
+  region = "us-east-1"
+}
+
+provider "aws" {
+  alias  = "us_west"
+  region = "us-west-2"
+}
+
+resource "aws_instance" "us_east_instance" {
+  provider          = aws.us_east
+  ami               = var.ami_id_us_east
+  instance_type     = var.instance_type
+  availability_zone = "us-east-1a"
+  tags = {
+    Name = "EC2-US-EAST"
+  }
+}
+
+resource "aws_instance" "us_west_instance" {
+  provider          = aws.us_west
+  ami               = var.ami_id_us_west
+  instance_type     = var.instance_type
+  availability_zone = "us-west-2a"
+  tags = {
+    Name = "EC2-US-WEST"
+  }
+}
+
+Variables.tf file
+
+variable "ami_id_us_east" {
+  description = "AMI ID for US East region"
+  type        = string
+  default     = "ami-0c2b8ca1dad447f8a" # Ubuntu 20.04 LTS (example, may change)
+}
+
+variable "ami_id_us_west" {
+  description = "AMI ID for US West region"
+  type        = string
+  default     = "ami-0d6621c01e8c2de2c" # Ubuntu 20.04 LTS (example, may change)
+}
+
+variable "instance_type" {
+  description = "EC2 Instance Type"
+  type        = string
+  default     = "t2.micro"
+}
+
+Outputs.tf file
+
+output "us_east_public_ip" {
+  value = aws_instance.us_east_instance.public_ip
+}
+
+output "us_west_public_ip" {
+  value = aws_instance.us_west_instance.public_ip
+}
+
+
+initialise and apply
+
+terraform init
+terraform plan
+terraform apply
+
+
+cleanup 
+
+terraform destroy
+
